@@ -1,0 +1,19 @@
+.log {
+  border: 1px solid gray;
+  border-radius: 3px;
+  font-family: monospace;
+  flex: 0 0 10em;
+  overflow-y: scroll;
+
+  >.debug {
+    color: gray;
+  }
+
+  >.warn {
+    color: orange;
+  }
+
+  >.error {
+    color: red;
+  }
+}

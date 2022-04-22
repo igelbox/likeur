@@ -1,0 +1,50 @@
+.posts {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2px;
+  height: 0;
+
+  >* {
+    width: 240px;
+    padding: 0;
+    flex-grow: 0;
+
+    >.title {
+      display: flex;
+      background: #ccc;
+      border-bottom: 1px solid gray;
+
+      >.name {
+        padding: 2px;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-right: 1px solid gray;
+        line-height: 20px;
+        height: 20px;
+      }
+
+      >button {
+        border: 0;
+      }
+    }
+
+    >.buttons {
+      display: flex;
+      flex-wrap: wrap;
+
+      >button {
+        flex: 1;
+      }
+    }
+
+    button.pressed {
+      background: gray;
+    }
+
+    img {
+      width: 240px;
+    }
+  }
+}

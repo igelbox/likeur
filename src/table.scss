@@ -1,0 +1,19 @@
+table {
+  tr:nth-child(2n) {
+    background: #ccc;
+  }
+
+  th {
+    background: gray
+  }
+
+  td {
+    &.align-center {
+      text-align: center;
+    }
+
+    &.align-right {
+      text-align: right;
+    }
+  }
+}

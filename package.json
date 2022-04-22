@@ -1,0 +1,26 @@
+{
+  "name": "likeur",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "parcel src/index.html --open",
+    "build": "parcel build src/index.html --no-cache --public-url ."
+  },
+  "author": "igelbox",
+  "license": "MIT",
+  "alias": {
+    "react": "preact/compat",
+    "react-dom/test-utils": "preact/test-utils",
+    "react-dom": "preact/compat",
+    "react/jsx-runtime": "preact/jsx-runtime"
+  },
+  "devDependencies": {
+    "parcel-bundler": "1.12.5",
+    "sass": "1.50.1",
+    "typescript": "4.6.3"
+  },
+  "dependencies": {
+    "preact": "10.7.1"
+  }
+}

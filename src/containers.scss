@@ -1,0 +1,19 @@
+.vstack {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+}
+
+.vscroll {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.borders {
+  border: 1px solid gray;
+  border-radius: 3px;
+  padding: 3px;
+}

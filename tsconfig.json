@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "experimentalDecorators": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "target": "ES2017",
+    "moduleResolution": "Node",
+    "lib": [
+      "ES2017"
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+.places {
+  &.loading {
+    background: #cccccc;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+
+    >* {
+      display: none;
+    }
+
+    &:before {
+      content: "loading...";
+    }
+  }
+
+  >table {
+    th {
+      padding: 0 2px;
+    }
+
+    th.pk,
+    th.updated {
+      width: 0;
+    }
+
+    th.actions {
+      width: 1em;
+    }
+
+    td.updated>button {
+      width: 100%;
+
+      &.fetching {
+        opacity: 0.5;
+      }
+
+      &.error {
+        color: red;
+      }
+    }
+  }
+
+}
+
+.buttons {
+  margin: 3px;
+  display: flex;
+
+  >* {
+    flex: 1;
+  }
+}

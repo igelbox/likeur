@@ -1,0 +1,14 @@
+.toolbar {
+  display: flex;
+  gap: 2px;
+
+  >.right {
+    flex-grow: 1;
+    text-align: right;
+  }
+}
+
+button {
+  border: 1px solid gray;
+  border-radius: 0;
+}
