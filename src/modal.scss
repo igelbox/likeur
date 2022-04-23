@@ -32,13 +32,14 @@
       border-width: 0 0 1px 0;
       border-radius: 0;
       font-weight: bold;
+      gap: 2px;
 
       >.title {
         flex: 1;
         padding: 0 4px;
       }
 
-      >button {
+      >.close {
         width: 20px;
       }
     }

@@ -2,9 +2,10 @@ import { Component } from 'preact';
 import { VScroll } from './containers';
 import { logger } from './log';
 import * as modal from './modal';
-import { IStore } from './storage';
+import { FStore } from './storage';
 import { Table } from './table';
 import { autocatch, wrapAsync } from './utils';
+import { ExportToClipboard } from './export';
 import './places.scss'
 
 export type Place = {
@@ -18,7 +19,7 @@ const comparator = (a: Place, b: Place) => (a.updated ?? 0) - (b.updated ?? 0);
 
 type Proxy = <T>(url: string, query?: Record<string, unknown>) => Promise<T>;
 class Places extends Component<{
-  store: () => IStore<Place>;
+  store: FStore<Place>;
   proxy: Proxy;
   onPlaces?: (places: Place[]) => void;
 }, {
@@ -154,9 +155,12 @@ class Places extends Component<{
   }
 }
 
-export async function show(store: () => IStore<Place>, proxy: Proxy, onPlaces?: (places: Place[]) => void) {
+export async function show(store: FStore<Place>, proxy: Proxy, onPlaces?: (places: Place[]) => void) {
   modal.show({
     title: 'Places',
     body: [<Places store={store} proxy={proxy} onPlaces={onPlaces} />],
+    buttons: [
+      <ExportToClipboard store={store} />
+    ]
   });
 }

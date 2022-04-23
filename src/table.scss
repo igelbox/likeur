@@ -1,11 +1,13 @@
 table {
-  tr:nth-child(2n) {
+  th {
     background: #ccc;
+    border: 1px solid gray;
+    padding: 2px;
   }
 
-  th {
-    background: gray
-  }
+  tr:nth-child(2n) {
+    background: #ccc;
+  }  
 
   td {
     &.align-center {

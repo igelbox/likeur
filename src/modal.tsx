@@ -3,13 +3,10 @@ import { logger } from './log';
 import { wrapAsync } from './utils';
 import './modal.scss';
 
-// class Modal extends Component {
-
-// }
-
 export async function show(props: {
   body: JSX.Element[];
   title: string;
+  buttons?: JSX.Element[];
   onCancel?: () => Promise<boolean>;
   onApply?: () => Promise<boolean>;
 }) {
@@ -25,6 +22,7 @@ export async function show(props: {
   render(<div class='modal vstack'>
     <div class='header borders'>
       <span class='title'>{props.title}</span>
+      {props.buttons}
       {props.onApply ? <button class='apply' onClick={wrapAsync(ok, logger)}>v</button> : undefined}
       <button class='close' title='Close Dialog' onClick={wrapAsync(close, logger)}>X</button>
     </div>

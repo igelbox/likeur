@@ -7,7 +7,7 @@
     justify-content: center;
 
     >* {
-      display: none;
+      visibility: hidden;
     }
 
     &:before {
@@ -16,10 +16,6 @@
   }
 
   >table {
-    th {
-      padding: 0 2px;
-    }
-
     th.pk,
     th.updated {
       width: 0;

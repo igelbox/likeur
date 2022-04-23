@@ -5,6 +5,7 @@ import * as modal from './modal';
 import { IStore } from './storage';
 import { Table } from './table';
 import { autocatch } from './utils';
+import { ExportToClipboard } from './export';
 import './processed.scss'
 
 export type Processed = {
@@ -72,5 +73,8 @@ export async function show(store: () => IStore<Processed>) {
   modal.show({
     title: 'Processed',
     body: [<Processeds store={store} />],
+    buttons: [
+      <ExportToClipboard store={store} />
+    ]
   });
 }

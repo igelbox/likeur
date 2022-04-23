@@ -21,6 +21,8 @@ export interface IStore<T> {
   import(dump: unknown): Promise<void>;
 }
 
+export type FStore<T> = () => IStore<T>;
+
 export interface IStorage {
   settings: <T>() => IStore<T>;
   places: <T>() => IStore<T>;
@@ -55,10 +57,10 @@ export async function open() {
   logger.debug('ready');
   return {
     settings: <T>() => makeStore<T>('settings'),
-    places: <T>() => makeStore<T>('places', 'pk'),
+    places: <T>() => makeStore<T>('places', 'pk', ['info']),
     processed: <T>() => makeStore<T>('processed', 'pk'),
   };
-  function makeStore<T>(name: string, keyPath?: string): IStore<T> {
+  function makeStore<T>(name: string, keyPath?: string, skipKeys: string[] = []): IStore<T> {
     const transaction = db.transaction([name], 'readwrite');
     const store = transaction.objectStore(name);
     return {
@@ -69,7 +71,7 @@ export async function open() {
         return wrap<T>(store.get(key));
       },
       async put(value: T, key?: string | number) {
-        logger.debug('put', store.name, value, key);
+        logger.debug('put', store.name, omitSkipKeys(value), key);
         await wrap(store.put(value, key));
       },
       async delete(key: string | number) {
@@ -83,11 +85,12 @@ export async function open() {
         if (!keyPath) {
           const vv: Record<string, unknown> = {};
           for (const k of await wrap(store.getAllKeys())) {
-            vv[String(k)] = await wrap(store.get(k));
+            vv[String(k)] = omitSkipKeys(await wrap(store.get(k)));
           }
           return vv;
         }
-        return await wrap(store.getAll());
+        const values = await wrap(store.getAll());
+        return values.map(omitSkipKeys);
       },
       async import(dump: unknown) {
         const store = db.transaction([name], 'readwrite')
@@ -105,5 +108,16 @@ export async function open() {
         }
       },
     };
+
+    function omitSkipKeys<T>(value: T) {
+      if (!skipKeys.length) {
+        return value;
+      }
+      const result = { ...value } as Record<string, unknown>;
+      for (const k of skipKeys) {
+        delete result[k];
+      }
+      return result;
+    }
   }
 }

@@ -13,6 +13,7 @@ export class Posts extends Component<{
   places: Array<Place>;
   processed: () => IStore<Processed>;
 }, {
+  loading: boolean;
   maxLikes: number;
   processed: Record<number, Processed>;
   posts: Array<Post>;
@@ -20,6 +21,7 @@ export class Posts extends Component<{
   constructor() {
     super();
     this.state = {
+      loading: true,
       maxLikes: 100,
       processed: {},
       posts: [],
@@ -29,37 +31,51 @@ export class Posts extends Component<{
 
   @autocatch(logger)
   async componentDidMount() {
+    await this.refresh();
+  }
+
+  @autocatch(logger)
+  private async refresh() {
+    this.setState({
+      ...this.state,
+      loading: true,
+    });
     const processed = { ...this.state.processed };
     for (const p of await this.props.processed().getAll()) {
       processed[p.pk] = p;
     }
     this.setState({
       ...this.state,
+      loading: false,
       processed,
       posts: preparePosts(this.props.places, processed)
     });
   }
 
   render() {
-    const { maxLikes, processed } = this.state;
+    const { maxLikes, processed, loading } = this.state;
     const self = this;
     const posts = this.state.posts.filter(p => p.likes < maxLikes)
       .slice(0, 36);
     return [
-      <label>{'Likes <= '}
-        <input type='number' value={maxLikes} onChange={(event) => {
-          self.setState({ maxLikes: Number(event.currentTarget.value) });
-        }}></input></label>,
-      <VScroll classes={['posts', 'borders']}>
+      <div class='filters'>
+        <label>{'Likes <= '}
+          <input type='number' value={maxLikes} onChange={(event) => {
+            self.setState({ maxLikes: Number(event.currentTarget.value) });
+          }}></input></label>
+        <button onClick={wrapAsync(async () => this.refresh(), logger)}>Refresh</button>
+      </div>,
+      <VScroll classes={['posts', 'borders', loading ? 'loading' : '']}>
         {posts.map(p => {
           const proc = processed[p.user.pk];
-          return <VStack key={p.pk} classes={['borders']}>
+          const username = `@${p.user.username}`;
+          return <VStack key={p.pk} classes={['borders', proc ? 'processed' : '']}>
             <div class='title'>
-              <span class='name' title={p.user.full_name}>{p.user.full_name}</span>
+              <a class='name' href={`https://www.instagram.com/${p.user.username}/`} target='blank' title={username}>{p.user.full_name || username}</a>
               <button class={proclass('like', proc)} onClick={wrapAsync(() => score(p, 'like'), logger)}>♥{p.likes}</button>
             </div>
             <div class='buttons'>
-              {['man', 'firm', 'kids', 'pair', 'old', 'fat', 'far', 'bad'].
+              {['fat', 'old', 'pair', 'kids', 'far', 'bad', 'ass' ,'man', 'firm'].
                 map(c => <button class={proclass(c, proc)} onClick={wrapAsync(() => score(p, 'pass', c), logger)}>{c}</button>)}
             </div>
             <a href={`https://www.instagram.com/p/${p.code}/`} target='blank'>

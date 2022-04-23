@@ -9,6 +9,7 @@ import * as places from './places';
 import * as processed from './processed';
 import * as proxy from './proxy';
 import { Posts } from './posts';
+import { ExportToClipboard } from './export';
 import './index.scss';
 
 export class Application extends Component<{
@@ -49,7 +50,7 @@ export class Application extends Component<{
           this.setState({ ...this.state, places: pp });
         }), logger)}>Show Places</button> : undefined}
         |{db ? <button onClick={wrapAsync(() => processed.show(db.processed), logger)}>Show Processed</button> : undefined}
-        |{db ? <button onClick={wrapAsync(async () => navigator.clipboard.writeText(JSON.stringify(await db.settings().export())), logger)}>Export</button> : undefined}
+        |{db ? <ExportToClipboard store={db.settings} /> : undefined}
         |{db ? <button onClick={wrapAsync(async () => {
           const dump = prompt('Overwrite the config');
           if (!dump) {
