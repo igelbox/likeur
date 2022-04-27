@@ -1,5 +1,10 @@
 # Likeur - UI helper for [Instagram](https://www.instagram.com/)
 
+# That's it [repo is archived]
+Well, it seems that's it. It was a bad idea testing this software on my personal account I was carefully building last several years :shit:
+![it happened](whoops.png)
+Appealing doesn't work, I couldn't go further the automated emails.
+
 # How to Use
 **! At you own risk, though.**
 1. Copy a request in the cURL format: ![](steal-the-cookie.png)
